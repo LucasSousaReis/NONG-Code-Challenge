@@ -1,14 +1,15 @@
 import './App.css';
 import React, {useState, useEffect} from 'react'
 import fire from './fire';
+import Login from './components/Login'
 
 function App() {
-  const  [user, setUser] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [emailPasswordError, setPasswordError] = useState('');
-  const [hasAccount,setHasAccount ] = useState('false');
+  const  [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [PasswordError, setPasswordError] = useState("");
+  const [hasAccount,setHasAccount ] = useState("false");
 
   const clearInputs = () =>{
     setEmail("");
@@ -16,6 +17,7 @@ function App() {
   }
 
   const handleLogin = () => {
+    clearInputs();
     fire
     .auth()
     .signInWithEmailAndPassword(email,password)
@@ -35,6 +37,7 @@ function App() {
   };
 
   const handleSignIn = () => {
+    clearInputs();
     fire
     .auth()
     .createUserWithEmailAndPassword(email,password)
@@ -58,6 +61,7 @@ function App() {
   const authListener = () =>{
     fire.auth().onAuthStateChanged((user)=> {
       if (user){
+        clearInputs();
         setUser(user);
       }
       else{
@@ -75,9 +79,18 @@ useEffect(()=> {
 
   return (
     <div className="App">
-      <header className="App-header">
-        we start here
-      </header>
+        <Login 
+        email = {email}
+        setEmail = {setEmail}
+        password = {password}
+        setPassword = {setPassword}
+        handleLogin = {handleLogin}
+        handleSignIn = {handleSignIn}
+        hasAccount = {hasAccount}
+        setHasAccount = {setHasAccount}
+        emailError = {emailError}
+       // passwordError = {passwordError}
+        />
     </div>
   );
 }
